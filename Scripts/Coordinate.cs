@@ -46,6 +46,8 @@ public class Coordinate
     public Coordinate perp => new Coordinate(-_y, _x);
     
     public float magnitude => GetAsVector3().magnitude;
+    
+    public Vector3 normalized => GetAsVector3().normalized;
 
     public Vector3 GetAsVector3(float marginZ = 0)
     {

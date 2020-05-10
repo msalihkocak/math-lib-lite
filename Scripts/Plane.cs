@@ -7,6 +7,13 @@ public class Plane {
     private Coordinate _pointA;
     private Coordinate _vectorV;
     private Coordinate _vectorU;
+
+    public Coordinate PointA {
+        get => _pointA;
+        set => _pointA = value;
+    }
+
+    public Coordinate Normal => new Coordinate(RotateMath.CrossProduct(_vectorV, _vectorU).GetAsVector3().normalized);
     
     public Plane(Coordinate pointA, Coordinate pointB, Coordinate pointC) {
         _pointA = pointA;
@@ -18,6 +25,11 @@ public class Plane {
         _pointA = pointA;
         _vectorV = new Coordinate(vectorV);
         _vectorU = new Coordinate(vectorU);
+    }
+    
+    public void Draw(float width, Color color) {
+        Coordinate.DrawLine(_pointA, _pointA + _vectorV, width, color);
+        Coordinate.DrawLine(_pointA, _pointA + _vectorU, width, color);
     }
 
     public Coordinate Lerp(float v, float u) {
