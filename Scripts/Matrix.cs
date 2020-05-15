@@ -92,6 +92,21 @@ public class Matrix {
         _values[10] = coordinate.Z;
         _values[15] = coordinate.W;
         break;
+      case MatrixInitializationType.QuaternionVector:
+        _values[0] = 1 - 2 * Mathf.Pow(coordinate.Y, 2) - 2 * Mathf.Pow(coordinate.Z, 2);
+        _values[1] = 2 * coordinate.X * coordinate.Y - 2 * coordinate.W * coordinate.Z;
+        _values[2] = 2 * coordinate.X * coordinate.Z + 2 * coordinate.W * coordinate.Y;
+        
+        _values[4] = 2 * coordinate.X * coordinate.Y + 2 * coordinate.W * coordinate.Z;
+        _values[5] = 1 - 2 * Mathf.Pow(coordinate.X, 2) - 2 * Mathf.Pow(coordinate.Z, 2);
+        _values[6] = 2 * coordinate.Y * coordinate.Z - 2 * coordinate.W * coordinate.X;
+        
+        _values[8] = 2 * coordinate.X * coordinate.Z - 2 * coordinate.W * coordinate.Y;
+        _values[9] = 2 * coordinate.Y * coordinate.Z + 2 * coordinate.W * coordinate.X;
+        _values[10] = 1 - 2 * Mathf.Pow(coordinate.X, 2) - 2 * Mathf.Pow(coordinate.Y, 2);
+        
+        _values[15] = 1;
+        break;
     }
   }
 
@@ -167,6 +182,15 @@ public class Matrix {
 
     return column;
   }
+  
+  public float[] GetDiagonal() {
+    var diagonal = new float[_rowCount];
+    for (var i = 0; i < _rowCount; i++) {
+      diagonal[i] = ElementAt(i, i);
+    }
+
+    return diagonal;
+  }
 
   private static float MultiplyAggregate(float[] a, float[] b) {
     return a.Select((t, i) => t * b[i]).Sum();
@@ -186,5 +210,5 @@ public class Matrix {
 }
 
 public enum MatrixInitializationType {
-  TranslateVector, ScaleVector, RotateXVector, RotateYVector, RotateZVector, ShearVector, ReflectionVector
+  TranslateVector, ScaleVector, RotateXVector, RotateYVector, RotateZVector, ShearVector, ReflectionVector, QuaternionVector
 }
